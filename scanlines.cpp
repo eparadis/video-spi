@@ -1,10 +1,15 @@
 #include "scanlines.h"
 
-extern int scanline;
-extern char *videoptr;
 extern char videomem[VID_WIDTH*VID_HEIGHT];
-extern void (*line_handler)(void);
 extern volatile byte vblank;
+
+//
+// rendering values
+//
+char *videoptr = videomem;
+int scanline=0;
+void (*line_handler)(void) = &blank_line;
+volatile byte vblank=0;
 
 //
 // Inactive scanlines

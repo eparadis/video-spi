@@ -18,13 +18,9 @@
 #include "interrupts.h"
 
 char videomem[VID_WIDTH*VID_HEIGHT];
-//
-// rendering values
-//
-char *videoptr = videomem;
-int scanline=0;
-void (*line_handler)(void) = &blank_line;
-volatile byte vblank=0;
+
+extern volatile byte vblank;
+
 /*
  * Set up UART SPI master mode and timers for sync pulses
  */
