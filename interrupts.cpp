@@ -19,6 +19,9 @@ ISR(TIMER1_COMPB_vect)
   scanline++;
 }
 
+/*
+ * Set up UART SPI master mode and timers for sync pulses
+ */
 void setupVideoInterrupts() {
   cli();
   UBRR0 = 0; // must be zero before enabling the transmitter

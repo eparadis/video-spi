@@ -10,6 +10,8 @@
  * Color TVout using SPI - http://www.hackster.io/janost/avr-videoblaster
  *
  * Dave Schmenk
+ *
+ * Organized into separate files by Ed Paradis
  */
 #include "charROM.h"
 #include "params.h"
@@ -18,12 +20,8 @@
 #include "interrupts.h"
 
 char videomem[VID_WIDTH*VID_HEIGHT];
-
 extern volatile byte vblank;
 
-/*
- * Set up UART SPI master mode and timers for sync pulses
- */
 void setup(void)
 {
   // sleep for a bit to increase the chances of the bootloader working for reprogramming
