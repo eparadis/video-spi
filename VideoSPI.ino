@@ -376,42 +376,21 @@ void line(signed char x1, signed char y1, signed char x2, signed char y2, void (
 /*
  * Run main loop
  */
-byte xTab = 2;
-byte yTab = 4;
-signed char  xMove = 1;
-signed char yMove = -1;
-byte xLine = 42;
-byte yLine = 47;
+int now = 0;
+int earlier = 0;
+byte chargen = 0;
 void loop(void)
 {
-  byte i;
-
-  if (vblank) // only update every frame
-  {
-    gotoxy(xTab + 1, yTab + 10);
-    printstr("        ");
-    xTab = xTab + xMove;
-    if (xTab == 0 || xTab == 10)
-      xMove = -xMove;
-    yTab = yTab + yMove;
-    if (yTab == 0 || yTab == 13 )
-      yMove = -yMove;
-    gotoxy(xTab + 1, yTab + 10);
-    printstr("Arduino!");
-    line(42, 20, xLine, yLine, xorpix);
-    if (xLine == 77 && yLine == 20)
-    {
-      xLine = 42;
-      yLine = 47;
-    }
-    else
-    {
-      if (++xLine > 77)
-      {
-        xLine = 77;
-        yLine--;
-      }
-    }
-    vblank=0;
+  if (!vblank) { // only update during a vblank
+    return;
   }
+
+  now += 1;
+  if( now - earlier > 15) { // approx two chars a second (~30 fps / 15 fpc = ~2 cps)
+    earlier = now;
+    chargen = (chargen + 1) % 96;
+    chrout(' ' + chargen);
+  }
+
+  vblank = 0; // only update once per vblank
 }
