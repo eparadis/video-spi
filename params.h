@@ -12,7 +12,7 @@
 #define _CYCLES_VSYNC           ((_TIME_VSYNC * _CYCLES_PER_US) - 1)
 #define _CYCLES_HSYNC           ((_TIME_HSYNC * _CYCLES_PER_US) - 1)
 #define _NTSC_TIME_SCANLINE      63.55
-#define _NTSC_TIME_OUTPUT_START  12
+#define _NTSC_TIME_OUTPUT_START  11
 #define _NTSC_LINE_FRAME         262
 #define _NTSC_LINE_START_VSYNC   0
 #define _NTSC_LINE_STOP_VSYNC    3
