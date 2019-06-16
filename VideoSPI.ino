@@ -13,6 +13,7 @@
  *
  * Organized into separate files by Ed Paradis
  */
+#include <Wire.h>
 #include "charROM.h"
 #include "params.h"
 #include "text.h"
@@ -22,12 +23,22 @@
 char videomem[VID_WIDTH*VID_HEIGHT];
 extern volatile byte vblank;
 
+void rxData(int numBytes) {
+  while(Wire.available()) {
+    chrout(Wire.read());
+  }
+}
+
 void setup(void)
 {
   // sleep for a bit to increase the chances of the bootloader working for reprogramming
   delay(2000);
 
   setupVideoInterrupts();
+
+  // set up TWI
+  Wire.onReceive(rxData);
+  Wire.begin(0x40);
 
   //
   // Clear the video buffer and print out sample text
@@ -45,21 +56,13 @@ void setup(void)
 /*
  * Run main loop
  */
-int now = 0;
-int earlier = 0;
-byte chargen = 0;
 void loop(void)
 {
   if (!vblank) { // only update during a vblank
     return;
   }
 
-  now += 1;
-  if( now - earlier > 15) { // approx two chars a second (~30 fps / 15 fpc = ~2 cps)
-    earlier = now;
-    chargen = (chargen + 1) % 96;
-    chrout(' ' + chargen);
-  }
+  // do work here
 
   vblank = 0; // only update once per vblank
 }
